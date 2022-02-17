@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane layoutX="-19.0" layoutY="-11.0" prefHeight="564.0" prefWidth="991.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserRegistrationController">
+	<children>
+		<ImageView fx:id="headerLogo" disable="true" fitHeight="88.0" fitWidth="224.0" layoutX="193.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="26.0">
+			<image>
+				<Image url="@../img/logoSmartParking.png" />
+			</image>
+		</ImageView>
+                <Text fx:id="txtUserRegistrationHeading" fill="WHITE" layoutX="37.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="pageHeading" textAlignment="CENTER" wrappingWidth="559.9999921321869">
+			<font>
+				<Font name="Tahoma" size="14.0" />
+			</font>
+		</Text>
+		<Text layoutX="88.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Identifiant" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="88.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Nom" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="88.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Prénom" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="87.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Adresse Mail" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="65.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Téléphone" textAlignment="RIGHT" wrappingWidth="124.80337524414062" />
+		<Text layoutX="88.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Ville" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="88.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Adresse" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="88.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Code Postal" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="88.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Mot de Passe" textAlignment="RIGHT" wrappingWidth="103.47003173828125" />
+		<Text layoutX="53.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Resaisir le Mot de Passe" textAlignment="RIGHT" wrappingWidth="136.13671875" />
+		<TextField fx:id="txtUserName" layoutX="216.0" layoutY="174.0" onKeyPressed="#CheckUserName" prefHeight="0.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtFirstName" layoutX="216.0" layoutY="200.0" onKeyReleased="#ValidateFirstName" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtLastName" layoutX="216.0" layoutY="226.0" onKeyReleased="#ValidateLastName" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtEmailAddress" layoutX="216.0" layoutY="251.0" onKeyReleased="#ValidateEmail" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtPhoneNumber" layoutX="216.0" layoutY="278.0" onKeyReleased="#ValidatePhoneNumber" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtCity" layoutX="216.0" layoutY="304.0" onKeyReleased="#ValidateCity" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtAddressLine1" layoutX="216.0" layoutY="329.0" onKeyReleased="#ValidateAddressLine1" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<TextField fx:id="txtZipCode" layoutX="216.0" layoutY="356.0" onKeyReleased="#ValidateZipCode" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<PasswordField fx:id="txtPassword" layoutX="216.0" layoutY="382.0" onKeyPressed="#ValidatePassword1" prefHeight="25.0" prefWidth="162.0" styleClass="inputField">
+		</PasswordField>
+		<PasswordField fx:id="txtPassword2" layoutX="216.0" layoutY="409.0" onInputMethodTextChanged="#ValidateRetypePassword" onKeyPressed="#ValidatePassword2" prefHeight="25.0" prefWidth="162.0" styleClass="inputField" />
+		<Button fx:id="btnRegister" layoutX="234.0" layoutY="457.0" mnemonicParsing="false" onAction="#btnRegister" prefHeight="25.0" prefWidth="103.0" styleClass="btnClass" text="S'Incrire" />
+		<Text fx:id="errUserName" layoutX="389.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errFirstName" layoutX="389.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errLastName" layoutX="389.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errAddressLine1" layoutX="389.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errCity" layoutX="389.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errZipCode" layoutX="389.0" layoutY="373.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errPassword" layoutX="389.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="207.60816955566406" />
+		<Text fx:id="errPassword1" layoutX="389.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+		<Text fx:id="errEmailAddress" layoutX="389.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616623" />
+      <Hyperlink fx:id="hlinkBack" layoutX="53.0" layoutY="135.0" onAction="#Back_Click" text="&lt;&lt; Retour" />
+      <Hyperlink fx:id="hlinkLogout" layoutX="503.0" layoutY="135.0" onAction="#Logout_Click" text="Déconnexion" />
+      <Text fx:id="errUserRegistration" layoutX="166.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="240.13671875" />
+      <ImageView fitHeight="563.0" fitWidth="419.0" layoutX="599.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/ParkingLotPicture2.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="errPhoneNumber" layoutX="389.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" wrappingWidth="171.33330124616634" />
+
+	</children>
+</AnchorPane>

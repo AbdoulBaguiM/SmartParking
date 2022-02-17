@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane layoutX="-19.0" layoutY="-11.0" prefHeight="564.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingController">
+	<children>
+		<ImageView disable="true" fitHeight="112.0" fitWidth="610.0" layoutX="200.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="21.0">
+			<image>
+				<Image url="@../img/logoSmartParking.png" />
+			</image>
+		</ImageView>
+		<Hyperlink fx:id="hlinkBack" layoutX="60.0" layoutY="150.0" onAction="#hlinkBack_Click" text="&lt;&lt; Retour" />
+		<Hyperlink fx:id="hlinkLogout" layoutX="550.0" layoutY="150.0" onAction="#hlinkLogout_Click" text="Déconnexion" />
+		<TableView fx:id="tblViewLog" layoutX="37.0" layoutY="189.0" prefHeight="321.0" prefWidth="592.0">
+			<columns>
+            <TableColumn minWidth="0.0" prefWidth="0.0" resizable="false" text="Id">
+               <cellValueFactory>
+                  <PropertyValueFactory property="userName" />
+               </cellValueFactory>
+            </TableColumn>
+				<TableColumn minWidth="5.333343505859375" prefWidth="163.33331298828125" text="Nom d'Utilisateur">
+					<cellValueFactory>
+						<PropertyValueFactory property="userName" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn minWidth="5.333343505859375" prefWidth="90.66671752929688" text="Slot">
+					<cellValueFactory>
+						<PropertyValueFactory property="description" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn minWidth="5.333343505859375" prefWidth="165.3333740234375" text="Date de début">
+					<cellValueFactory>
+						<PropertyValueFactory property="fromDate" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn minWidth="5.333343505859375" prefWidth="175.33331298828125" text="Date de Fin">
+					<cellValueFactory>
+						<PropertyValueFactory property="toDate" />
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
+		</TableView>
+	</children>
+</AnchorPane>

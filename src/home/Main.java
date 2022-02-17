@@ -1,61 +1,35 @@
 package home;
 
+import common.Constants;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 public class Main extends Application {
-
-    //define your offsets here
-    private double xOffset = 0;
-    private double yOffset = 0;
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Register.fxml"));
-  
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setMaximized(false);
-
-
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-        });
-
-
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
-            }
-        });
+	public static Stage stage;
+        Image icon = new Image(getClass().getResourceAsStream(Constants.ICON_URL));
         
-        Image icon = new Image(getClass().getResourceAsStream("/images/logo2.png"));
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Smart Parking");
-        stage.getIcons().add(icon);
-        stage.show();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-
+	@Override
+	public void start(Stage primaryStage) {
+		try {
+			stage = primaryStage;
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource(Constants.LOGIN_URL));
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(Constants.CSS_URL);
+			stage.setTitle("Connectez-vous");
+                        stage.getIcons().add(icon);
+			stage.setScene(scene);
+			stage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
