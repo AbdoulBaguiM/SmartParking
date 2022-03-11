@@ -393,7 +393,7 @@ public class UserRegistrationController extends BaseController {
 				if (result > 0) {
 					SuccessMsg = "Mise à jour réussie";
 					setLoginUser(loginDAO.getUserDetails(getLoginUser().getUserName()));
-					RedirectBasedOnRole(ev, Constants.LOGIN, 'C', getLoginUser().getUserName() + " Home");
+					RedirectBasedOnRole(ev, Constants.LOGIN, 'C', "Acceuil");
 
 				} else
 					errUserRegistration.setText("Veuillez vérifier les champs");
@@ -420,16 +420,16 @@ public class UserRegistrationController extends BaseController {
 		if (getRole() == 'G')
 			Logout_Click(ev);
 		else if (getRole() == 'F')
-			RedirectBasedOnRole(ev, Constants.LOGIN, 'G', "Login");
+			RedirectBasedOnRole(ev, Constants.LOGIN, 'G', "Connectez-vous");
 		else if (getLoginUser().getRole() == 'A')
-			RedirectBasedOnRole(ev, Constants.USERREGISTRATION, 'A', "Admin Home");
+			RedirectBasedOnRole(ev, Constants.USERREGISTRATION, 'A', "Panneau d'administration");
 		else if (getLoginUser().getRole() == 'E')
 			if (getRole() == 'X')
-				RedirectBasedOnRole(ev, Constants.LOGIN,'E', "Employee " + getLoginUser().getUserName() + " Home");
+				RedirectBasedOnRole(ev, Constants.LOGIN,'E', "Tableau de bord Employé");
 			else
-				RedirectBasedOnRole(ev, Constants.USERREGISTRATION, 'E', "Admin Home");
+				RedirectBasedOnRole(ev, Constants.USERREGISTRATION, 'E', "Panneau d'administration");
 		else if (getLoginUser().getRole() == 'C')
-			RedirectBasedOnRole(ev, Constants.LOGIN, 'C', getLoginUser().getUserName() + " Home");
+			RedirectBasedOnRole(ev, Constants.LOGIN, 'C', "Acceuil");
 	}
 
 	/**

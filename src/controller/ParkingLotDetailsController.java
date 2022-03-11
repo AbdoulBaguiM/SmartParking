@@ -6,8 +6,10 @@ import dao.Interface.IParkingDAO;
 import dao.ParkingDAO;
 import common.Common;
 import common.Constants;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import java.util.stream.Collectors;
 import javafx.beans.value.ChangeListener;
@@ -15,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -30,23 +33,15 @@ public class ParkingLotDetailsController extends BaseController {
 	@FXML
 	private TitledPane thirdAccordion;
 	@FXML
-	private Button btnAddCategory;
-	@FXML
 	private TextField txtCategory;
         @FXML
 	private TextField txtDetails;
 	@FXML
 	private Text txtCategoryMsg;
 	@FXML
-	private TextField txtDescription;
-	@FXML
 	private TextField txtNoOfSpace;
 	@FXML
 	private Text errParking;
-//	@FXML
-//	private ComboBox<String> cbeCategory;
-	@FXML
-	private Button btnAddParkingSpace;
 	@FXML
 	private TableView<ParkingCategoryModel> tblParkingDetails;
 	@FXML
@@ -59,7 +54,9 @@ public class ParkingLotDetailsController extends BaseController {
 	private Text txterror;
 	@FXML
 	private Button btnUpdateParking;
-
+        @FXML
+        private Hyperlink hlinkLogout;
+        
 	public final ToggleGroup group = new ToggleGroup();
 
 	private IParkingDAO parkingDAO = new ParkingDAO();
@@ -79,7 +76,7 @@ public class ParkingLotDetailsController extends BaseController {
 				txterror.setText("");
 			} else {
 				txtUpdate.setVisible(true);
-				txtUpdate.setPromptText("Value to update");
+				txtUpdate.setPromptText("Nouvelle valeur");
 			}
 		});
 	}
@@ -98,6 +95,21 @@ public class ParkingLotDetailsController extends BaseController {
 		txtUpdate.setVisible(false);
 		btnUpdateParking.setVisible(false);
 	}
+        
+        public void VisitorView() {
+		firstAccordion.setVisible(false);
+		accordion.setExpandedPane(thirdAccordion);
+		thirdAccordion.setVisible(true);
+		thirdAccordion.setDisable(false);
+		thirdAccordion.setText("Informations sur le Parking");
+		rbUpdate.setVisible(false);
+		rbDelete.setVisible(false);
+		txtUpdate.setVisible(false);
+		btnUpdateParking.setVisible(false);
+                hlinkLogout.setVisible(false);
+                txterror.getStyleClass().add("validationError");
+                txterror.setText("Connectez-vous afin d'effectuer une réservation");
+	}
 
 //	/**
 //	 * Load the Category
@@ -115,17 +127,8 @@ public class ParkingLotDetailsController extends BaseController {
 	 */
 	public void LoadParkingCategoryTable() {
 		tblParkingDetails.getItems().clear();
-		tblParkingDetails.setItems(FXCollections.observableArrayList(parkingDAO.GetParkingCategory()));
+		tblParkingDetails.setItems(FXCollections.observableArrayList(parkingDAO.GetParkingCategoryWithFreeSpace()));
 	}
-        
-        
-//	/**
-//	 * Loading Parking Table
-//	 */
-//	public void LoadParkingTable() {
-//		tblParkingDetails.getItems().clear();
-//		tblParkingDetails.setItems(FXCollections.observableArrayList(parkingDAO.GetParkingLot()));
-//	}
 
 	/**
 	 * add category button
@@ -134,16 +137,25 @@ public class ParkingLotDetailsController extends BaseController {
 	 *            ev
 	 */
 	public void btnAddCategory_Click(ActionEvent ev) {
-		if (!Common.IsNullOrEmpty(txtCategory.getText())) {
+		if (!Common.IsNullOrEmpty(txtCategory.getText()) && !Common.IsNullOrEmpty(txtNoOfSpace.getText())) {
 			ParkingCategoryModel category = new ParkingCategoryModel();
 			category.setDescription(txtCategory.getText());
                         category.setDetails(txtDetails.getText());
                         category.setNoOfSpace(Integer.parseInt(txtNoOfSpace.getText()));
 			int result = parkingDAO.AddCategory(category);
 			if (result > 0) {
-				txtCategoryMsg.getStyleClass().removeAll();
-                                txtCategoryMsg.setText("La catégorie " + txtCategory.getText() + " a été ajoutée avec succès");
+                                //Add parking lots
+                                ParkingLot parkingLot = new ParkingLot();
+                                parkingLot.setParkingLotCategoryId(parkingDAO.GetMaxParkingId());
+                                parkingLot.setStatus("A");
+                                
+                                for (int i = 1; i <= Integer.parseInt(txtNoOfSpace.getText()); i++){
+                                    parkingLot.setParkingLotId(i);
+                                    parkingDAO.AddParking(parkingLot);
+                                }
+                                
                                 txtCategoryMsg.getStyleClass().add("successMsg");
+                                txtCategoryMsg.setText("La catégorie " + txtCategory.getText() + " a été ajoutée avec succès");
 				txtCategory.setText(Constants.String_Empty);
                                 txtDetails.setText(Constants.String_Empty);
                                 txtNoOfSpace.clear();
@@ -157,7 +169,7 @@ public class ParkingLotDetailsController extends BaseController {
 			SetErrorMessage(txtCategory.getText(), txtCategoryMsg, Constants.errCategoryEmpty);
 		}
 	}
-
+        
 	/**
 	 * validate category
 	 * 
@@ -200,12 +212,15 @@ public class ParkingLotDetailsController extends BaseController {
 	 *            event
 	 */
 	public void hlinkBack_Click(ActionEvent ev) {
-		if (getLoginUser().getRole() == 'C')
-			RedirectBasedOnRole(ev, Constants.PARKINGLOTDETAILS, 'C', getLoginUser().getUserName() + " Home");
+                if (getLoginUser() == null)
+			RedirectBasedOnRole(ev, Constants.LOGOUT, '\0', "Login");
+                else if (getLoginUser().getRole() == 'C')
+			RedirectBasedOnRole(ev, Constants.PARKINGLOTDETAILS, 'C', getLoginUser().getUserName() + " Acceuil");
 		else if (getLoginUser().getRole() == 'E')
-			RedirectBasedOnRole(ev, Constants.LOGIN, 'E', "Employee " + getLoginUser().getUserName() + " Home");
-		else
-			RedirectBasedOnRole(ev, Constants.PARKINGLOTDETAILS, 'A', "Admin Home");
+			RedirectBasedOnRole(ev, Constants.LOGIN, 'E', "Employee " + getLoginUser().getUserName() + " Acceuil");
+                
+                else
+			RedirectBasedOnRole(ev, Constants.PARKINGLOTDETAILS, 'A', "Panneau d'administration");
 	}
 
 	/**
@@ -259,18 +274,53 @@ public class ParkingLotDetailsController extends BaseController {
 				txterror.getStyleClass().add("validationError");
 			} else {
 				try {
-					updateValue = Integer.parseInt(txtUpdate.getText());
-					ParkingCategoryModel parkingCategory = new ParkingCategoryModel();
-					parkingCategory.setNoOfSpace(updateValue);
-					parkingCategory.setParkingCategoryId(
-							this.tblParkingDetails.getSelectionModel().getSelectedItem().getParkingCategoryId());
-					if (parkingDAO.UpdateParkingCategory(parkingCategory)) {
-						LoadParkingCategoryTable();
-						txterror.setText("");
-					} else {
-						txterror.setText("Une erreur s'est produite, Veuillez réessayer plus tard");
-						txterror.getStyleClass().add("validationError");
-					}
+                                    updateValue = Integer.parseInt(txtUpdate.getText());
+                                    ParkingCategoryModel parkingCategory = new ParkingCategoryModel();
+                                    int oldValue = this.tblParkingDetails.getSelectionModel().getSelectedItem().getNoOfSpace();
+
+
+
+                                        parkingCategory.setParkingCategoryId(
+                                                        this.tblParkingDetails.getSelectionModel().getSelectedItem().getParkingCategoryId());
+                                        parkingCategory.setNoOfSpace(updateValue);
+
+                                        if (parkingDAO.UpdateParkingCategory(parkingCategory)) {
+
+                                            //New value is superior to the actual NoOfSpace
+                                            if(updateValue > oldValue){
+                                                //Add Parking Lots
+                                                ParkingLot parkingLot = new ParkingLot();
+                                                parkingLot.setParkingLotCategoryId(parkingCategory.getParkingCategoryId());
+                                                parkingLot.setStatus("A");
+
+                                                for (int i = oldValue + 1; i <= updateValue; i++){
+                                                    parkingLot.setParkingLotId(i);
+                                                    parkingDAO.AddParking(parkingLot);
+                                                }
+
+                                                LoadParkingCategoryTable();
+                                                txterror.getStyleClass().add("successMsg");
+                                                txterror.setText("Mise à jour réussie");
+                                            }
+                                            else if(updateValue < oldValue){
+                                                //Delete Parking Lots
+                                                for (int i = oldValue; i > updateValue; i--){
+                                                    parkingDAO.DeleteParkingLot(this.tblParkingDetails.getSelectionModel().getSelectedItem().getParkingCategoryId(),i);
+                                                }
+                                                
+                                                LoadParkingCategoryTable();
+                                                txterror.getStyleClass().add("successMsg");
+                                                txterror.setText("Mise à jour réussie");
+                                            }
+                                            else if(updateValue == oldValue){
+                                                txterror.getStyleClass().add("successMsg");
+                                                txterror.setText("Aucun changement");
+                                            }
+                                        } else {
+                                                txterror.setText("Une erreur s'est produite, Veuillez réessayer plus tard");
+                                                txterror.getStyleClass().add("validationError");
+                                        }
+
 				} catch (NumberFormatException ex) {
 					txterror.setText("Veullez entrer une valeur");
 					txterror.getStyleClass().add("validationError");
@@ -285,9 +335,14 @@ public class ParkingLotDetailsController extends BaseController {
 					ParkingCategoryModel parkingCategory = new ParkingCategoryModel();
 					parkingCategory.setParkingCategoryId(
 							this.tblParkingDetails.getSelectionModel().getSelectedItem().getParkingCategoryId());
+                                        
 					if (parkingDAO.DeleteParkingCategory(parkingCategory)) {
-						LoadParkingCategoryTable();
-						txterror.setText("");
+                                                //Delete all the parkinglots for the category    
+                                                parkingDAO.DeleteParkingLot(parkingCategory.getParkingCategoryId());
+                                                
+                                                LoadParkingCategoryTable();
+                                                txterror.getStyleClass().add("successMsg");
+						txterror.setText("Suppression reussie");
 					} else {
 						txterror.setText("Une erreur s'est produite, Veuillez réessayer plus tard");
 						txterror.getStyleClass().add("validationError");

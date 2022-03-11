@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 
 public class ParkingCategoryModel {
@@ -11,9 +11,10 @@ public class ParkingCategoryModel {
 	private String description;
         private String details;
         private int noOfSpace;
-        private Date createdDate; 
-	private Date updatedDate;
         private int noOfFreeSpace;
+        private Timestamp createdDate; 
+	private Timestamp updatedDate;
+        
 	
 	/**
 	 * Gets the parking category
@@ -80,9 +81,9 @@ public class ParkingCategoryModel {
         
         /**
 	 * gets the created date
-	 * @return Date
+	 * @return Timestamp
 	 */
-	public Date getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
 	
@@ -90,15 +91,15 @@ public class ParkingCategoryModel {
 	 * sets the created date
 	 * @param createdDate createdDate
 	 */
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 	
 	/**
 	 * gets updated date
-	 * @return Date
+	 * @return Timestamp
 	 */
-	public Date getUpdatedDate() {
+	public Timestamp getUpdatedDate() {
 		return updatedDate;
 	}
 	
@@ -106,7 +107,7 @@ public class ParkingCategoryModel {
 	 * sets the updated date
 	 * @param updatedDate updatedDate
 	 */
-	public void setUpdatedDate(Date updatedDate) {
+	public void setUpdatedDate(Timestamp updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 }

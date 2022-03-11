@@ -60,4 +60,26 @@ public class AdminAccessDAO extends BaseDAO implements IAdminAccessDAO {
 		return false;
 		
 	}
+        
+        public boolean DeleteUser(int userId){
+		try {
+			CreateConnection();
+			PreparedStatement deleteUser = PrepareStatement(Constants.DELETE_USER);
+			deleteUser.setInt(1, userId);
+			int result = deleteUser.executeUpdate();
+			if(result>0)
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return false;
+		
+	}
+ 
 }

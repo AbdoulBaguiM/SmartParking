@@ -1,23 +1,32 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 //Model de Réservations
 
 public class ParkingModel {
 	
 	/* Private variables */
+        private int bookid;
 	private int parkingLotId;
 	private int userId;
 	private String userName;
-	private Date fromDate;
-	private Date toDate;
+	private Timestamp fromDate;
+        private Timestamp toDate;
 	private int price;
 	private String description;
 	private String categoryDescription;
 	private int noOfSpace;
-        private int currentPlace;
+        private int parkingLotCategoryId;
+        private String status;
 	
+        public int getBookid() {
+            return bookid;
+        }
+
+        public void setBookid(int bookid) {
+            this.bookid = bookid;
+        }
 	/**
 	 * gets the user Name
 	 * @return String
@@ -84,9 +93,9 @@ public class ParkingModel {
 	
 	/**
 	 * gets from date
-	 * @return Date
+	 * @return Timestamp
 	 */
-	public Date getFromDate() {
+	public Timestamp getFromDate() {
 		return fromDate;
 	}
 	
@@ -94,15 +103,15 @@ public class ParkingModel {
 	 * Sets the from date
 	 * @param fromDate fromDate
 	 */
-	public void setFromDate(Date fromDate) {
+	public void setFromDate(Timestamp fromDate) {
 		this.fromDate = fromDate;
 	}
 	
 	/**
 	 * gets to date
-	 * @return date
+	 * @return timestamp
 	 */
-	public Date getToDate() {
+	public Timestamp getToDate() {
 		return toDate;
 	}
 	
@@ -110,7 +119,7 @@ public class ParkingModel {
 	 * Sets to date
 	 * @param toDate toDate
 	 */
-	public void setToDate(Date toDate) {
+	public void setToDate(Timestamp toDate) {
 		this.toDate = toDate;
 	}
 	
@@ -162,12 +171,20 @@ public class ParkingModel {
 		this.noOfSpace = noOfSpace;
 	}
 	
-        public int getCurrentPlace(){
-            return currentPlace;
+        public int getParkingLotCategoryId(){
+            return parkingLotCategoryId;
         }
         
-        public void setCurrentPlace(int currentPlace){
-            this.currentPlace = currentPlace;
+        public void setParkingLotCategoryId(int parkingLotCategoryId){
+            this.parkingLotCategoryId = parkingLotCategoryId;
+        }
+        
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 	
 }

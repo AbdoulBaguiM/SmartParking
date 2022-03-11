@@ -138,7 +138,7 @@ public class BaseDAO {
                 returnValue.setCategoryDescription(rs.getString(2));
                 returnValue.setDescription(rs.getString(3));
 		returnValue.setNoOfSpace(rs.getInt(4));
-                returnValue.setCurrentPlace(rs.getInt(5));
+
 		return returnValue;
 	}
 
@@ -154,8 +154,9 @@ public class BaseDAO {
 		returnValue.setDescription(rs.getString("DESCRIPTION"));
 		returnValue.setParkingCategoryId(rs.getInt("PARKINGCATEGORYID"));
                 returnValue.setNoOfSpace(rs.getInt("NOOFSPACE"));
-                returnValue.setCreatedDate(rs.getDate("CREATEDDATE"));
-                returnValue.setUpdatedDate(rs.getDate("UPDATEDDATE"));
+                returnValue.setNoOfFreeSpace(rs.getInt("FREESPACE"));
+                returnValue.setCreatedDate(rs.getTimestamp("CREATEDDATE"));
+                returnValue.setUpdatedDate(rs.getTimestamp("UPDATEDDATE"));
 		return returnValue;
 	}
 	
@@ -167,11 +168,13 @@ public class BaseDAO {
 	 */
 	public ParkingModel Map_ResultSet_To_ParkingModel_Log(ResultSet rs) throws SQLException {
 		ParkingModel returnValue = new ParkingModel();
-		returnValue.setUserId(rs.getInt(1));
-		returnValue.setUserName(rs.getString(2));
-		returnValue.setDescription(rs.getString(3));
-		returnValue.setFromDate(rs.getDate(4));
-		returnValue.setToDate(rs.getDate(5));
+                returnValue.setBookid(rs.getInt(1));
+                returnValue.setUserId(rs.getInt(2));
+		returnValue.setUserName(rs.getString(3));
+		returnValue.setDescription(rs.getString(4));
+		returnValue.setFromDate(rs.getTimestamp(5));
+		returnValue.setToDate(rs.getTimestamp(6));
+                returnValue.setStatus(rs.getString(7));
 		return returnValue;
 	}
 }

@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane layoutX="-19.0" layoutY="-11.0" prefHeight="564.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BookingController">
 	<children>
@@ -17,34 +20,44 @@
 		</ImageView>
 		<Hyperlink fx:id="hlinkBack" layoutX="60.0" layoutY="150.0" onAction="#hlinkBack_Click" text="&lt;&lt; Retour" />
 		<Hyperlink fx:id="hlinkLogout" layoutX="550.0" layoutY="150.0" onAction="#hlinkLogout_Click" text="Déconnexion" />
-		<TableView fx:id="tblViewLog" layoutX="37.0" layoutY="189.0" prefHeight="321.0" prefWidth="592.0">
+		<TableView fx:id="tblViewLog" layoutX="37.0" layoutY="189.0" prefHeight="285.0" prefWidth="592.0">
 			<columns>
-            <TableColumn minWidth="0.0" prefWidth="0.0" resizable="false" text="Id">
-               <cellValueFactory>
-                  <PropertyValueFactory property="userName" />
-               </cellValueFactory>
-            </TableColumn>
-				<TableColumn minWidth="5.333343505859375" prefWidth="163.33331298828125" text="Nom d'Utilisateur">
+                                <TableColumn minWidth="0.0" prefWidth="0.0" resizable="false" text="Id">
+                                   <cellValueFactory>
+                                      <PropertyValueFactory property="bookid" />
+                                   </cellValueFactory>
+                                </TableColumn>
+				<TableColumn minWidth="5.333343505859375" prefWidth="129.99996948242188" text="Nom d'Utilisateur">
 					<cellValueFactory>
 						<PropertyValueFactory property="userName" />
 					</cellValueFactory>
 				</TableColumn>
-				<TableColumn minWidth="5.333343505859375" prefWidth="90.66671752929688" text="Slot">
+				<TableColumn minWidth="5.333343505859375" prefWidth="72.00003051757812" text="Slot">
 					<cellValueFactory>
 						<PropertyValueFactory property="description" />
 					</cellValueFactory>
 				</TableColumn>
-				<TableColumn minWidth="5.333343505859375" prefWidth="165.3333740234375" text="Date de début">
+				<TableColumn minWidth="5.333343505859375" prefWidth="157.33331298828125" text="Date de début">
 					<cellValueFactory>
 						<PropertyValueFactory property="fromDate" />
 					</cellValueFactory>
 				</TableColumn>
-				<TableColumn minWidth="5.333343505859375" prefWidth="175.33331298828125" text="Date de Fin">
+				<TableColumn minWidth="5.333343505859375" prefWidth="154.66668701171875" text="Date de Fin">
 					<cellValueFactory>
 						<PropertyValueFactory property="toDate" />
 					</cellValueFactory>
 				</TableColumn>
+                                <TableColumn minWidth="5.333343505859375" prefWidth="75.33331298828125" text="Statut">
+                                   <cellValueFactory>
+                                      <PropertyValueFactory property="status" />
+                                   </cellValueFactory>
+                                </TableColumn>
 			</columns>
 		</TableView>
+      <Spinner fx:id="fromTime" layoutX="37.0" layoutY="517.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
+      <Spinner fx:id="toTime" layoutX="47.0" layoutY="527.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
+      <Button layoutX="200.0" layoutY="514.0" mnemonicParsing="false" onAction="#btnDeleteLog_Click" prefHeight="25.0" prefWidth="104.0" style="-fx-background-color: red;" text="Supprimer" textFill="WHITE" />
+      <Text fx:id="txtMsg" layoutX="180.0" layoutY="498.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="296.80340576171875" />
+      <Button layoutX="332.0" layoutY="515.0" mnemonicParsing="false" onAction="#btnTerminateLog_Click" prefHeight="25.0" prefWidth="119.0" styleClass="btnClass" text="Terminer" />
 	</children>
 </AnchorPane>

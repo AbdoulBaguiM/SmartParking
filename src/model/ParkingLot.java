@@ -8,7 +8,7 @@ public class ParkingLot {
 	private int parkingLotId;
 	private String parkingCategoryDesc;
         private String description;
-	private int parkingCategoryId;
+	private int parkingLotCategoryId;
 	private int noOfSpace=0;
 	private String status;
 	private Date createdDate; 
@@ -63,19 +63,19 @@ public class ParkingLot {
         }
    	
 	/**
-	 * get ParkingCategoryId
+	 * get ParkingLotCategoryId
 	 * @return int
 	 */
-	public int getParkingCategoryId() {
-		return parkingCategoryId;
+	public int getParkingLotCategoryId() {
+		return parkingLotCategoryId;
 	}
 	
 	/**
-	 * sets the parking category id
-	 * @param parkingCategoryId parkingCategoryId
+	 * sets the parking lot category id
+	 * @param parkingLotCategoryId parkingLotCategoryId
 	 */
-	public void setParkingCategoryId(int parkingCategoryId) {
-		this.parkingCategoryId = parkingCategoryId;
+	public void setParkingLotCategoryId(int parkingLotCategoryId) {
+		this.parkingLotCategoryId = parkingLotCategoryId;
 	}
 	
 	

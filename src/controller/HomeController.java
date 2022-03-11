@@ -1,8 +1,15 @@
 package controller;
 
 import common.Constants;
+import iot.Server;
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.text.Text;
@@ -27,7 +34,10 @@ public class HomeController extends BaseController {
 	private Button btnViewParkingLog;
 	@FXML
 	private Hyperlink hlinkLogout;
+        @FXML
+        private Text txtTemperature;
 
+        
 	/**
 	 * Sets a welcome message
 	 * @param msg msg
@@ -45,7 +55,7 @@ public class HomeController extends BaseController {
 	 * @param ev ev
 	 */
 	public void btnAddCustomer_Click(ActionEvent ev) {
-		RedirectBasedOnRole(ev, Constants.ADMINHOME, 'C', "Création de compte");
+		RedirectBasedOnRole(ev, Constants.ADMINHOME, 'C', "Créer un compte");
 	}
 	
 	/**
@@ -95,7 +105,7 @@ public class HomeController extends BaseController {
 	 * @param ev ev
 	 */
 	public void btnCustViewParkingSpace_Click(ActionEvent ev) {
-		RedirectBasedOnRole(ev, Constants.CUSTOMEMR, 'C', "Gestion du parking");
+		RedirectBasedOnRole(ev, Constants.CUSTOMEMR, 'C', "Consulter les places");
 	}
 
 	/**
@@ -122,5 +132,11 @@ public class HomeController extends BaseController {
 		setLoginUser(null);
 		RedirectBasedOnRole(ev, Constants.LOGOUT, '\0', "Connectez-vous");
 	}
+        
+        public void btnAccountManagement_Click(ActionEvent ev) {
+		RedirectBasedOnRole(ev, Constants.ADMINMANAGE, 'G', "Gestion des comptes");
+	}
+
+
 
 }

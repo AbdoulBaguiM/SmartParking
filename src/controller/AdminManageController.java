@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 
 
 
-public class AdminAccessController extends BaseController {
+public class AdminManageController extends BaseController {
 	/* Private variables */
 	
 	@FXML
@@ -33,29 +33,29 @@ public class AdminAccessController extends BaseController {
 	@FXML
 	private TableView<UserProfileModel> tblAdminAccessView;
 	@FXML
-	private Button btnGrandAccess;
+	private Button btnDeleteUser;
 	@FXML
-	private Button btnRevokeAccess;
+	private Button btnDeleteEmploye;
 
 	private IAdminAccessDAO adminAccessDAO = new AdminAccessDAO();
 
 	/**
-	 * Loads the Admin type user
+	 * Loads the users
 	 */
-	public void LoadAdminUser() {
-		List<UserProfileModel> adminUser = adminAccessDAO.getUserDetails().stream().filter(u -> u.getRole() == 'A')
+	public void LoadUser() {
+		List<UserProfileModel> userList = adminAccessDAO.getUserDetails().stream().filter(u -> u.getRole() == 'C')
 				.collect(Collectors.toList());
-		adminUser.removeIf(u -> u.getUserName().equals(getLoginUser().getUserName()));
-		if (adminUser.size() == 0){
-			txtMsgRevoke.setText("Aucun admministrateur à charger");
+		userList.removeIf(u -> u.getUserName().equals(getLoginUser().getUserName()));
+		if (userList.size() == 0){
+			txtMsgRevoke.setText("Aucun client à charger");
 			txtMsgRevoke.getStyleClass().add("validationError");
-			btnRevokeAccess.setVisible(false);
+			btnDeleteEmploye.setVisible(false);
 			tblAdminAccessView.setItems(null);
 		}
 		else{
-			tblAdminAccessView.setItems(FXCollections.observableArrayList(adminUser));
+			tblAdminAccessView.setItems(FXCollections.observableArrayList(userList));
 			txtMsgRevoke.setText(Constants.String_Empty);
-			btnRevokeAccess.setVisible(true);
+			btnDeleteEmploye.setVisible(true);
 		}
 	}
 
@@ -68,13 +68,13 @@ public class AdminAccessController extends BaseController {
 		if (employeeList.size() == 0){
 			txtMsg.setText("Aucun employé à charger");
 			txtMsg.getStyleClass().add("validationError");
-			btnGrandAccess.setVisible(false);
+			btnDeleteUser.setVisible(false);
 			tblEmployeeAccessView.setItems(null);
 		}
 		else{
 			tblEmployeeAccessView.setItems(FXCollections.observableArrayList(employeeList));
 			txtMsg.setText(Constants.String_Empty);
-			btnGrandAccess.setVisible(true);
+			btnDeleteUser.setVisible(true);
 		}
 	}
 
@@ -99,16 +99,18 @@ public class AdminAccessController extends BaseController {
 	 * Funtion for granting acces to employee and user
 	 * @param ev event
 	 */
-	public void btnGrantAccess_Click(ActionEvent ev) {
+	public void btnDeleteUser_Click(ActionEvent ev) {
 		UserProfileModel selectedUser = this.tblEmployeeAccessView.getSelectionModel().getSelectedItem();
 		if (selectedUser == null) {
 			txtMsg.setText("Choisir un utilisateur");
 			txtMsg.getStyleClass().add("validationError");
 		}
 		else{
-			if(adminAccessDAO.UpdateUserDetail(selectedUser.getUserId(), "A")){
-				LoadAdminUser();
+			if(adminAccessDAO.DeleteUser(selectedUser.getUserId())){
+				LoadUser();
 				LoadEmployeeUser();
+                                txtMsg.setText("L'opération est un succès");
+				txtMsg.getStyleClass().add("successMsg");
 			}
 			else{
 				txtMsg.setText("erreur s'est produite, Veuillez réessayer plus-tard");
@@ -121,16 +123,18 @@ public class AdminAccessController extends BaseController {
 	 * Function to revoke the access
 	 * @param ev event
 	 */
-	public void btnRevokeAccess_Click(ActionEvent ev) {
+	public void btnDeleteEmploye_Click(ActionEvent ev) {
 		UserProfileModel selectedUser = this.tblAdminAccessView.getSelectionModel().getSelectedItem();
 		if (selectedUser == null) {
-			txtMsgRevoke.setText("Choisir un utilisateur");
+			txtMsgRevoke.setText("Choisir un employe");
 			txtMsgRevoke.getStyleClass().add("validationError");
 		}
 		else{
-			if(adminAccessDAO.UpdateUserDetail(selectedUser.getUserId(), "E")){
-				LoadAdminUser();
+			if(adminAccessDAO.DeleteUser(selectedUser.getUserId())){
+				LoadUser();
 				LoadEmployeeUser();
+                                txtMsgRevoke.setText("L'opération est un succès");
+				txtMsgRevoke.getStyleClass().add("successMsg");
 			}
 			else{
 				txtMsgRevoke.setText("Une erreur s'est produite, Veuillez réessayer plus-tard");

@@ -1,6 +1,7 @@
 package home;
 
 import common.Constants;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+    
 	public static Stage stage;
         Image icon = new Image(getClass().getResourceAsStream(Constants.ICON_URL));
         

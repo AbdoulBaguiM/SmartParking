@@ -4,9 +4,14 @@ import common.Common;
 import common.Constants;
 import dao.LoginDAO;
 import dao.Interface.ILoginDAO;
+import home.Main;
+import iot.Server;
+import java.net.URL;
+import java.util.ResourceBundle;
 import model.UserProfileModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,6 +34,8 @@ public class LoginController extends BaseController {
 	private Button btnLogin;
 	@FXML
 	private Button btnReset;
+        @FXML
+        private Button btnViewParking;
 	@FXML
         private Text txtLoginMsg;
 
@@ -144,4 +151,8 @@ public class LoginController extends BaseController {
 			e.getMessage();
 		}
 	}
+        
+        public void btn_ViewParking_Click(ActionEvent event){
+            RedirectBasedOnRole(event, Constants.VISITOR, 'V', "Consulter les places");
+        }
 }

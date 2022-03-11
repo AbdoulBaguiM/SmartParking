@@ -131,6 +131,8 @@ public class BaseController {
 				root = LoginRedirection(role, heading);
 			} else if (resource.equals(Constants.ADMINHOME)) {
 				root = AdminHomeRedirection(role, heading);
+			} else if (resource.equals(Constants.ADMINMANAGE)) {
+				root = AdminManageRedirection(role, heading);
 			} else if (resource.equals(Constants.USERREGISTRATION)) {
 				root = UserRegistrationRedirection(role, heading);
 			} else if (resource.equals(Constants.LOGOUT)) {
@@ -141,6 +143,8 @@ public class BaseController {
 				root = AdminAccessRedirection(role, heading);
 			} else if (resource.equals(Constants.CUSTOMEMR)) {
 				root = CustomerRedirect(role, heading);
+			}else if (resource.equals(Constants.VISITOR)) {
+				root = VisitorRedirect(role, heading);
 			}
 			stage.setTitle(heading);
 			Scene scene = new Scene(root);
@@ -232,6 +236,20 @@ public class BaseController {
 			controller.SetWelcome("Bienvenue " + loginUser.getFirstName().toUpperCase() + " " + loginUser.getLastName() ,
 					Constants.String_Empty);
 		}
+		return root;
+	}
+        
+        private Parent AdminManageRedirection(char role,String heading) throws IOException {
+		Parent root = null;
+		FXMLLoader fxmlLoader;
+                
+		fxmlLoader = new FXMLLoader(getClass().getResource(Constants.ADMIN_MANAGE_URL));
+			root = (Parent) fxmlLoader.load();
+			AdminManageController controller = fxmlLoader.<AdminManageController> getController();
+			controller.setLoginUser(loginUser);
+			controller.LoadUser();
+			controller.LoadEmployeeUser();
+                        
 		return root;
 	}
 
@@ -371,4 +389,18 @@ public class BaseController {
 		}
 		return root;
 	}
+
+	private Parent VisitorRedirect(char role, String heading) throws IOException {
+		Parent root = null;
+		FXMLLoader fxmlLoader;
+		
+                fxmlLoader = new FXMLLoader(getClass().getResource(Constants.PARKING_LOT_DETAILS_URL));
+                root = (Parent) fxmlLoader.load();
+                ParkingLotDetailsController controller = fxmlLoader.<ParkingLotDetailsController> getController();
+                controller.VisitorView();
+                controller.LoadParkingCategoryTable();
+		
+		return root;
+	}
+        
 }

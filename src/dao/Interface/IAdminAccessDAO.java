@@ -19,4 +19,6 @@ public interface IAdminAccessDAO {
 	 * @return true/false
 	 */
 	public boolean UpdateUserDetail(int userId, String role);
+        
+        public boolean DeleteUser(int userId);
 }

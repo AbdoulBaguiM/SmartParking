@@ -21,12 +21,18 @@ public interface IParkingDAO {
 	 */
 	public int AddCategory(ParkingCategoryModel Category);
 	
-	/**
-	 * GetParkingCategory
+//	/**
+//	 * GetParkingCategory
+//	 * @return List of ParkingCategoryModel
+//	 */
+//	public List<ParkingCategoryModel> GetParkingCategory();
+	
+        /**
+	 * GetParkingCategoryWithFreeSpace
 	 * @return List of ParkingCategoryModel
 	 */
-	public List<ParkingCategoryModel> GetParkingCategory();
-	
+	public List<ParkingCategoryModel> GetParkingCategoryWithFreeSpace();
+        
 	/**
 	 * GetCategoryId
 	 * @param category category
@@ -34,6 +40,13 @@ public interface IParkingDAO {
 	 */
 	public int GetCategoryId(String category);
 	
+        /**
+	 * GetParkingLotId
+	 * @param Int categoryId
+	 * @return int
+	 */
+	public int GetParkingLotId(int categoryId);
+        
 	/**
 	 * AddParking
 	 * @param parking parking
@@ -79,8 +92,20 @@ public interface IParkingDAO {
 	 * @return int
 	 */
 	public int AddParkingBooking(ParkingModel parking);
+        
+        public boolean UpdateParkingLotStatus(int parkingLotID, int parkingLotCategoryIDs);
 
-    public boolean UpdateParkingCategory(ParkingCategoryModel parkingCategory);
+        public boolean UpdateParkingCategory(ParkingCategoryModel parkingCategory);
+        
+        public boolean DeleteParkingLot(int parkingCategoryID, int parkingLotID);
+        
+        public boolean DeleteParkingLog(int bookID);
 
-    public boolean DeleteParkingCategory(ParkingCategoryModel parkingCategory);
+        public boolean DeleteParkingCategory(ParkingCategoryModel parkingCategory);
+        
+        public boolean DeleteParkingLot(int parkingCategoryID);
+        
+        public boolean CheckParkingLotStatus(ParkingModel parkingModel);
+        
+        public boolean UpdateParkingLogStatus(int bookID);
 }

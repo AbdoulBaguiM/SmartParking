@@ -43,8 +43,8 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 			insertCategory.setString(1, Category.getDescription());
                         insertCategory.setString(2, Category.getDetails());
                         insertCategory.setInt(3, Category.getNoOfSpace());
-                        insertCategory.setDate(4, java.sql.Date.valueOf(java.time.LocalDate.now()));
-                        insertCategory.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
+                        insertCategory.setTimestamp(4, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+                        insertCategory.setTimestamp(5, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
 			int result = insertCategory.executeUpdate();
 			if (result > 0)
 				return GetMaxParkingId();
@@ -57,19 +57,19 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return -1;
 	}
-
-	/**
-	 * GetParkingCategory
+        
+        /**
+	 * GetParkingCategoryWithFreeSpace
 	 * @return List of ParkingCategoryModel
 	 */
-	public List<ParkingCategoryModel> GetParkingCategory() {
+	public List<ParkingCategoryModel> GetParkingCategoryWithFreeSpace() {
 		
 		List<ParkingCategoryModel> category = new ArrayList<ParkingCategoryModel>();
 		
 		
 		try {
 			CreateConnection();
-			PreparedStatement getAllCategory = PrepareStatement(Constants.GET_PARKING_CATEGORY);
+			PreparedStatement getAllCategory = PrepareStatement(Constants.GET_PARKING_CATEGORY_WITH_FREE_SPACE);
 			ResultSet rs = getAllCategory.executeQuery();
 			while (rs.next())
 				category.add(Map_ResultSet_To_ParkingCategory(rs));
@@ -82,6 +82,7 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return category;
 	}
+        
 	
 	/**
 	 * GetCategoryId
@@ -115,13 +116,12 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		try {
 			CreateConnection();
 			PreparedStatement insertParkingLot = PrepareStatement(Constants.INSERT_PARKING_LOT);
-			//(PARKINGCATEGORYID,NOOFSPACE,CURRENTPLACE,STATUS,CREATEDDATE,UPDATEDDATE)
-			insertParkingLot.setInt(1, parking.getParkingCategoryId());
-                        insertParkingLot.setInt(2, parking.getNoOfSpace());
-                        insertParkingLot.setInt(3, 1);
-			insertParkingLot.setString(4, parking.getStatus());
-			insertParkingLot.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
-			insertParkingLot.setDate(6, java.sql.Date.valueOf(java.time.LocalDate.now()));
+			//(PARKINGLOTID,PARKINGCATEGORYID,STATUS,CREATEDDATE,UPDATEDDATE)
+                        insertParkingLot.setInt(1, parking.getParkingLotId());
+			insertParkingLot.setInt(2, parking.getParkingLotCategoryId());
+                        insertParkingLot.setString(3, parking.getStatus());
+			insertParkingLot.setTimestamp(4, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+			insertParkingLot.setTimestamp(5, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
 			int result = insertParkingLot.executeUpdate();
 			if (result > 0)
 				return result;
@@ -134,51 +134,8 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return -1;
 	}
-//	/**
-//	 * GetParkingLot
-//	 * @return List of ParkingLot
-//	 */
-//	public List<ParkingLot> GetParkingLot(){
-//		List<ParkingLot> parkingLot = new ArrayList<ParkingLot>();
-//		try {
-//			CreateConnection();
-//			PreparedStatement getAllparkingLot = PrepareStatement(Constants.GET_PARKING_LOT);
-//			ResultSet rs = getAllparkingLot.executeQuery();
-//			while (rs.next())
-//				parkingLot.add(Map_ResultSet_To_ParkingLot(rs));
-//		} catch (SQLException e) {
-//			if (e.getMessage().equalsIgnoreCase("Too many connections"))
-//				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
-//		} catch (Exception e) {
-//			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
-//		}
-//		return parkingLot;
-//	}
 	
-//	/**
-//	 * UpdateParkingLot
-//	 * @param parkingLot parkingLot
-//	 * @return boolean
-//	 */
-//	public boolean UpdateParkingLot(ParkingLot parkingLot){
-//		try {
-//			CreateConnection();
-//			PreparedStatement updateParkingLot = PrepareStatement(Constants.UPDATE_PARKING_LOT);
-//			updateParkingLot.setInt(1, parkingLot.getNoOfSpace());
-//			updateParkingLot.setInt(2, parkingLot.getParkingLotId());
-//			int result = updateParkingLot.executeUpdate();
-//			return (result > 0) ? true : false;
-//
-//		} catch (SQLException e) {
-//			if (e.getMessage().equalsIgnoreCase("Too many connections"))
-//				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
-//		} catch (Exception e) {
-//			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
-//		}
-//		return false;
-//	}
-	
-        	/**
+        /**
 	 * UpdateParkingCategory
 	 * @param parkingCategoryModel parkingCategory
 	 * @return boolean
@@ -221,7 +178,66 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return false;
 	}
-		
+        
+        /**
+	 * DeleteParkingLot
+	 * @param parkingCategoryModel parkingCategory
+	 * @return boolean
+	 */
+	public boolean DeleteParkingLot(int parkingCategoryID){
+		try {
+			CreateConnection();
+			PreparedStatement deleteParkingLot = PrepareStatement(Constants.DELETE_PARKING_LOTS);
+			deleteParkingLot.setInt(1, parkingCategoryID);
+			int result = deleteParkingLot.executeUpdate();
+			return (result > 0) ? true : false;
+
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return false;
+	}
+        
+        public boolean DeleteParkingLot(int parkingCategoryID, int parkingLotID){
+		try {
+			CreateConnection();
+			PreparedStatement deleteParkingLot = PrepareStatement(Constants.DELETE_PARKING_LOT);
+			deleteParkingLot.setInt(1, parkingCategoryID);
+                        deleteParkingLot.setInt(2, parkingLotID);
+
+			int result = deleteParkingLot.executeUpdate();
+			return (result > 0) ? true : false;
+
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return false;
+	}
+	
+        public boolean DeleteParkingLog(int bookID){
+		try {
+			CreateConnection();
+			PreparedStatement deleteParkingLog = PrepareStatement(Constants.DELETE_PARKING_LOG);
+			deleteParkingLog.setInt(1, bookID);
+
+			int result = deleteParkingLog.executeUpdate();
+			return (result > 0) ? true : false;
+
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return false;
+	}
+        
 	/**
 	 * GetParkingSpaceDetail
 	 * @return List of ParkingModel
@@ -264,6 +280,29 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return parkingModel;
 	}
+        
+        /**
+	 * GetParkingLotId
+	 * @param Int categoryId
+	 * @return int
+	 */
+	public int GetParkingLotId(int categoryId){
+		try {
+			CreateConnection();
+			PreparedStatement getParkigLotId = PrepareStatement(Constants.GET_PARKINGLOT_ID);
+			getParkigLotId.setInt(1, categoryId);
+			ResultSet result = getParkigLotId.executeQuery();
+			while (result.next())
+				return result.getInt(1);
+
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return -1;
+	}
 
 	/**
 	 * AddParkingBooking
@@ -274,13 +313,14 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		try {
 			CreateConnection();
 			PreparedStatement insertParkingLot = PrepareStatement(Constants.INSERT_PARKING_LOG);
-			//PID,PARKINGLOTID,USERID,FROMDATE,TODATE,PRICE
-                        insertParkingLot.setInt(1,parking.getCurrentPlace());
+			//PARKINGCATEGORYID,PARKINGLOTID,USERID,FROMDATE,TODATE,STATUS,PRICE
+                        insertParkingLot.setInt(1, parking.getParkingLotCategoryId());
 			insertParkingLot.setInt(2, parking.getParkingLotId());
 			insertParkingLot.setInt(3, parking.getUserId());
-			insertParkingLot.setDate(4, java.sql.Date.valueOf(java.time.LocalDate.now()));
-			insertParkingLot.setDate(5, new java.sql.Date(parking.getToDate().getTime()));
-			insertParkingLot.setInt(6, parking.getPrice());
+			insertParkingLot.setTimestamp(4, parking.getFromDate());
+			insertParkingLot.setTimestamp(5, parking.getToDate());
+                        insertParkingLot.setString(6, parking.getStatus());
+			insertParkingLot.setInt(7, parking.getPrice());
 			int result = insertParkingLot.executeUpdate();
 			if (result > 0){
                             return result;
@@ -294,5 +334,65 @@ public class ParkingDAO extends BaseDAO implements IParkingDAO{
 		}
 		return -1;
 	}
+
+        @Override
+        public boolean UpdateParkingLotStatus(int parkingLotID,int parkingLotCategoryID) {
+                try {
+			CreateConnection();
+			PreparedStatement updateParkingLotStatus = PrepareStatement(Constants.UPDATE_PARKINGLOT_STATUS);
+			updateParkingLotStatus.setInt(1, parkingLotID);
+                        updateParkingLotStatus.setInt(2, parkingLotCategoryID);
+
+			int result = updateParkingLotStatus.executeUpdate();
+			return (result > 0) ? true : false;
+
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+		return false;
+        }
 		
+        public boolean CheckParkingLotStatus(ParkingModel parkingModel){
+            try {
+                    CreateConnection();
+                    PreparedStatement getParkingLotStatus = PrepareStatement(Constants.GET_PARKINGLOT_STATUS);
+                    getParkingLotStatus.setInt(1, parkingModel.getParkingLotCategoryId());
+                    getParkingLotStatus.setInt(2, parkingModel.getParkingLotId());
+                    getParkingLotStatus.setTimestamp(3, parkingModel.getFromDate());
+                    getParkingLotStatus.setTimestamp(4, parkingModel.getToDate());
+
+                    ResultSet result = getParkingLotStatus.executeQuery();
+                    if (result.next())
+                        return false;
+                    
+		} catch (SQLException e) {
+			if (e.getMessage().equalsIgnoreCase("Too many connections"))
+				System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		} catch (Exception e) {
+			System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+		}
+            return true;
+        }
+
+    @Override
+    public boolean UpdateParkingLogStatus(int bookID) {
+            try {
+                CreateConnection();
+                PreparedStatement updateParkingLogStatus = PrepareStatement(Constants.UPDATE_PARKINGLOG_STATUS);
+                updateParkingLogStatus.setInt(1, bookID);
+
+                int result = updateParkingLogStatus.executeUpdate();
+                return (result > 0) ? true : false;
+
+            } catch (SQLException e) {
+                    if (e.getMessage().equalsIgnoreCase("Too many connections"))
+                            System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+            } catch (Exception e) {
+                    System.out.println("Une erreur s'est produite, Veuillez contacter l'administrateur");
+            }
+            return false;
+    }
 }

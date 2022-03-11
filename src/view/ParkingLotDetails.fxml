@@ -32,11 +32,12 @@
 								<Text layoutX="145.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Catégorie " textAlignment="RIGHT" wrappingWidth="78.0" />
 								<Text fx:id="txtCategoryMsg" layoutX="94.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="401.47003173828125" />
 								<TextField fx:id="txtCategory" layoutX="296.0" layoutY="27.0" onKeyReleased="#ValidateCategory" styleClass="inputField" />
-								<Button fx:id="btnAddCategory" layoutX="233.0" layoutY="164.0" mnemonicParsing="false" onAction="#btnAddCategory_Click" prefHeight="25.0" prefWidth="124.0" styleClass="btnClass" text="Ajouter" />
-                        <Text layoutX="145.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Description" textAlignment="RIGHT" wrappingWidth="78.0" />
                         <TextField fx:id="txtDetails" layoutX="296.0" layoutY="64.0" onKeyReleased="#ValidateDetails" styleClass="inputField" />
                   								<TextField fx:id="txtNoOfSpace" layoutX="296.0" layoutY="101.0" onKeyReleased="#ValidateNoOfSpace" prefHeight="25.0" prefWidth="149.0" styleClass="inputField" />
+								<Button fx:id="btnAddCategory" layoutX="233.0" layoutY="164.0" mnemonicParsing="false" onAction="#btnAddCategory_Click" prefHeight="25.0" prefWidth="124.0" styleClass="btnClass" text="Ajouter" />
+                        <Text layoutX="145.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="userField" text="Description" textAlignment="RIGHT" wrappingWidth="78.0" />
                   								<Text layoutX="84.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de Places" textAlignment="RIGHT" wrappingWidth="138.80343627929688" />
+                        <Text fx:id="errParking" layoutX="449.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="validationError" textAlignment="RIGHT" wrappingWidth="123.47012329101562" />
 							</children>
 						</AnchorPane>
 					</content>
@@ -69,16 +70,16 @@
 										</TableColumn>
                                                                                 <TableColumn prefWidth="138.00003051757812" text="Places Libres">
                                                                                         <cellValueFactory>
-												<PropertyValueFactory property=""/>
+												<PropertyValueFactory property="noOfFreeSpace" />
 											</cellValueFactory>
                                                                                 </TableColumn>
 									</columns>
 								</TableView>
 								<RadioButton fx:id="rbUpdate" layoutX="58.0" layoutY="189.0" mnemonicParsing="false" styleClass="userField" text="Mettre à jour" />
+                        <TextField fx:id="txtUpdate" layoutX="196.0" layoutY="185.0" prefHeight="25.0" prefWidth="135.0" promptText="Nombre de places" styleClass="inputField" />
 								<RadioButton fx:id="rbDelete" layoutX="418.0" layoutY="189.0" mnemonicParsing="false" styleClass="userField" text="Supprimer" />
 								<Button fx:id="btnUpdateParking" layoutX="186.0" layoutY="241.0" mnemonicParsing="false" onAction="#UpdateParkingLotSpace" prefHeight="25.0" prefWidth="155.0" styleClass="btnClass" text="Valider" />
-                        <TextField fx:id="txtUpdate" layoutX="196.0" layoutY="185.0" prefHeight="25.0" prefWidth="135.0" promptText="Nombre de places" styleClass="inputField" />
-                        <Text fx:id="txterror" layoutX="165.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="198.13671875" />
+                        <Text fx:id="txterror" layoutX="112.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="343.4700622558594" />
 							</children>
 						</AnchorPane>
 					</content>
